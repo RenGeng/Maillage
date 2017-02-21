@@ -1,0 +1,19 @@
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="1,1" id="srcline1"> 1</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,2" id="srcline2"> 2</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,3" id="srcline3"> 3</a></span><span class="line"><span class="var type0" id="S1T0U3">in</span> = fopen(<span class="string">'Polytech_maillage/mesh/.mesh'</span>,<span class="string">'r'</span>);</span></span>
+<span class="srcline"><span class="lineno"><a href="1,4" id="srcline4"> 4</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,5" id="srcline5"> 5</a></span><span class="line"><span class="var type0" id="S3T0U10">point</span> = <span class="string">'Vertices'</span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="1,6" id="srcline6"> 6</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,7" id="srcline7"> 7</a></span><span class="line"><span class="keyword">while</span> ~strcmp(fgetl(<span class="var type0" id="S1T0U18">in</span>),<span class="var type0" id="S3T0U19">point</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="1,8" id="srcline8"> 8</a></span><span class="line"><span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,9" id="srcline9"> 9</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,10" id="srcline10">10</a></span><span class="line"><span class="var type0" id="S6T0U22">nb_point</span> = str2num(fgetl(<span class="var type0" id="S1T0U27">in</span>));</span></span>
+<span class="srcline"><span class="lineno"><a href="1,11" id="srcline11">11</a></span><span class="line">disp(<span class="var type0" id="S6T0U31">nb_point</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="1,12" id="srcline12">12</a></span><span class="line"><span class="var type0" id="S9T0U34">mat</span>=zeros(<span class="var type0" id="S6T0U37">nb_point</span>,3);</span></span>
+<span class="srcline"><span class="lineno"><a href="1,13" id="srcline13">13</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,14" id="srcline14">14</a></span><span class="line"><span class="keyword">for</span> <span class="var type0" id="S11T0U41">i</span>=1:<span class="var type0" id="S6T0U44">nb_point</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,15" id="srcline15">15</a></span><span class="line">    disp(<span class="var type0" id="S11T0U48">i</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="1,16" id="srcline16">16</a></span><span class="line">    <span class="var type0" id="S9T0U52">mat</span>(<span class="var type0" id="S11T0U53">i</span>,:) =str2num(fgetl(<span class="var type0" id="S1T0U59">in</span>));</span></span>
+<span class="srcline"><span class="lineno"><a href="1,17" id="srcline17">17</a></span><span class="line"><span class="keyword">end</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,18" id="srcline18">18</a></span><span class="line"></pre>

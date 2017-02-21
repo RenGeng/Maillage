@@ -1,6 +1,28 @@
-%TEST Wi DEF AFFINE
+format long
+in = fopen('deformation/Polytech_maillage/mesh/man.mesh','r');
 
-v=[0.468016540541141 0.967718704569095];% 0.481085909944514 0.970729991670015; 0.455164450497425 0.964084704207101; 0.519764749312941 0.971863337459406; 0.44249314114901 0.9568074312025];
-Pcontrole=[0.507376283308393 0.974333544281047;0.49415615493122 0.973036119536873];
-NewP=[0.7 0.5;0.8 0.4];
-[f]= affine(Pcontrole,v,NewP)
+point = 'Vertices';
+
+while ~strcmp(fgetl(in),point)
+end
+
+nb_point = str2num(fgetl(in));
+disp(nb_point)
+mat=zeros(nb_point,3);
+
+for i=1:nb_point
+    mat(i,:) =str2num(fgetl(in));
+end
+
+V = mat(:,1:2);
+P=V(1:3,:)';
+Q=zeros(2,3);
+Q(1,:)=0.99;
+Q(2,:)=0.99;
+newmesh=zeros(2,length(V));
+
+for i=4:length(V)
+    newmesh(:,i)=affine2(P,V(i,:)',Q);
+end
+
+%pichap'*wi*pichap impossible de l'inverser !
