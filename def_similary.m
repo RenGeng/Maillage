@@ -1,4 +1,4 @@
-function [f] = affine2(P,v,Q)
+function [f] = def_similary(P,v,Q)
 %P=points controle(p1, p2, ...,pn) v=point (x,y) Q=nouveau points
 %correspondant au pi (q1 q2 ... qn)
 
@@ -7,7 +7,11 @@ n=length(P);
 w=zeros(1,n);
 
 for i=1:n
-    w(i)=1/(norm(P(i,:)-v))^(2*alpha);
+    if P(i,:)==v %pas sur
+        w(i)=0;
+    else
+        w(i)=1/(norm(P(i,:)-v))^(2*alpha);
+    end
 end
 
 %p et q étoile, px, qx 
@@ -37,21 +41,33 @@ for i=1:n
     qchap(i,:)=Q(i,:)-qx;
 end
 
-%Calcule de fa(v)
-M1=zeros(2,2);
-M2=zeros(2,2);
-
+%Calcule de nu
+nu=0;
 for i=1:n
-    M1=pchap(i,:)'*w(i)*pchap(i,:)+M1;
-    M2=w(i)*pchap(i,:)'*qchap(i,:)+M2;
+    nu=w(i)*pchap(i,:)*pchap(i,:)'+nu;
 end
 
-M1=inv(M1);
+%Calcule de Ai
+A2=zeros(2,2);
+A2(1,:)=v-px;
+A2(2,:)=-ortho(A2(1,:));
+A2=A2';
+f1=zeros(1,2);
 
-%On calcule fa(v)
+for i=1:n
+    A1=zeros(2,2);
+    A1(1,:)=pchap(i,:);
+    A1(2,:)=-ortho(pchap(i,:));
+    f1=qchap(i,:)*(1/nu)*w(i)*A1*A2+f1;
+end
 
-f1=(v-px)*M1*M2+qx;
+f1=f1+qx;
 f=f1-v;
+end
 
+function [vect] = ortho(u)
+    vect=zeros(1,2);
+    vect(1,1)=-u(1,2);
+    vect(1,2)=u(1,1);
 end
 

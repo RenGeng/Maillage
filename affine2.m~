@@ -2,12 +2,15 @@ function [f] = affine2(P,v,Q)
 %P=points controle(p1, p2, ...,pn) v=point (x,y) Q=nouveau points
 %correspondant au pi (q1 q2 ... qn)
 
-alpha=1;
 n=length(P);
 w=zeros(1,n);
 
 for i=1:n
-    w(i)=1/(norm(P(i,:)-v))^(2*alpha);
+    if P(i,:)==v
+        f=
+    else
+        w(i)=1/(norm(P(i,:)-v))^(2*8);
+    end
 end
 
 %p et q étoile, px, qx 
@@ -47,6 +50,8 @@ for i=1:n
 end
 
 M1=inv(M1);
+M1
+M2
 
 %On calcule fa(v)
 
