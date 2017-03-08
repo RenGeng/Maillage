@@ -27,7 +27,9 @@ Q(2,:)=0.2*V(600,:);
 Q(3,:)=0.3*V(1100,:);
 Q(4,:)=0.3*V(1600,:);
 Q(5,:)=0.4*V(2100,:);
-ptssol=zeros(length(V),2);
+ptssol_affine=zeros(length(V),2);
+ptssol_similary=zeros(length(V),2);
+ptssol_rigid=zeros(length(V),2);
 ind=0;
 
 for i=1:length(V)
@@ -39,10 +41,40 @@ for i=1:length(V)
         end
     end
     if cond==0
-        ptssol(i,:)=rigid(P,V(i,:),Q);
+        ptssol_affine(i,:)=affine2(P,V(i,:),Q);
+        ptssol_similary(i,:)=def_similary(P,V(i,:),Q);
+        ptssol_rigid(i,:)=rigid(P,V(i,:),Q);
     else
-        ptssol(i,:)=Q(ind,:)-P(ind,:);
+        ptssol_affine(i,:)=Q(ind,:)-P(ind,:);
+        ptssol_similary(i,:)=Q(ind,:)-P(ind,:);
+        ptssol_rigid(i,:)=Q(ind,:)-P(ind,:);
     end
         
 end
+
+figure(1)
+plot(ptssol_affine(:,1),ptssol_affine(:,2),'.k');
+title('Affine');
+
+figure(2)
+plot(ptssol_similary(:,1),ptssol_similary(:,2),'.k');
+title('Similary');
+
+figure(3)
+plot(ptssol_rigid(:,1),ptssol_rigid(:,2),'.k');
+title('Rigid');
+
+figure(4)
+plot(V(:,1),V(:,2),'.k');
+title('Original');
+
+
+
+
+
+
+
+
+
+
 
