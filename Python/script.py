@@ -25,23 +25,24 @@ for i in range(nb_point):
 	mat_points[i,0]=liste[0]
 	mat_points[i,1]=liste[1]	
 
+
+
 file_mesh.close()
 # Nous avons maintenant les cordonnées de chaque point dans la matrice mat_points
 
 V = mat_points[:,0:2] # Matrice des points sans les références
 P = numpy.zeros((5,2)) # Matrice des points de controles
-P[0,:]=V[99,:]
-P[1,:]=V[599,:]
-P[2,:]=V[1099,:]
-P[3,:]=V[1599,:]
-P[4,:]=V[2099,:]
-print("V 100",V[1,:],"P 1",P)
+P[0,:]=numpy.copy(V[99,:])
+P[1,:]=numpy.copy(V[599,:])
+P[2,:]=numpy.copy(V[1099,:])
+P[3,:]=numpy.copy(V[1599,:])
+P[4,:]=numpy.copy(V[2099,:])
 Q = numpy.zeros((5,2)) # Matrice des points après déformation
-Q[0,:]=0.8*V[99,:]
-Q[1,:]=0.8*V[599,:]
-Q[2,:]=0.8*V[1099,:]
-Q[3,:]=0.5*V[1599,:]
-Q[4,:]=0.1*V[2099,:]
+Q[0,:]=0.8*numpy.copy(V[99,:])
+Q[1,:]=0.8*numpy.copy(V[599,:])
+Q[2,:]=0.8*numpy.copy(V[1099,:])
+Q[3,:]=0.5*numpy.copy(V[1599,:])
+Q[4,:]=0.1*numpy.copy(V[2099,:])
 
 # Calcul des points sol
 point_sol = numpy.zeros((nb_point,2))

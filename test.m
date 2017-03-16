@@ -1,5 +1,5 @@
 format long
-in = fopen('deformation/Polytech_maillage/mesh/man.mesh','r');
+in = fopen('./deformation/Polytech_maillage/mesh/man.mesh','r');
 
 point = 'Vertices';
 
@@ -22,11 +22,11 @@ P(3,:)=V(1100,:);
 P(4,:)=V(1600,:);
 P(5,:)=V(2100,:);
 Q=zeros(5,2);
-Q(1,:)=0.2*V(100,:);
-Q(2,:)=0.2*V(600,:);
-Q(3,:)=0.3*V(1100,:);
-Q(4,:)=0.3*V(1600,:);
-Q(5,:)=0.4*V(2100,:);
+Q(1,:)=0.8*V(100,:);
+Q(2,:)=0.8*V(600,:);
+Q(3,:)=0.8*V(1100,:);
+Q(4,:)=0.5*V(1600,:);
+Q(5,:)=0.1*V(2100,:);
 ptssol_affine=zeros(length(V),2);
 ptssol_similary=zeros(length(V),2);
 ptssol_rigid=zeros(length(V),2);
@@ -52,21 +52,21 @@ for i=1:length(V)
         
 end
 
-figure(1)
-plot(ptssol_affine(:,1),ptssol_affine(:,2),'.k');
-title('Affine');
-
-figure(2)
-plot(ptssol_similary(:,1),ptssol_similary(:,2),'.k');
-title('Similary');
-
-figure(3)
-plot(ptssol_rigid(:,1),ptssol_rigid(:,2),'.k');
-title('Rigid');
-
-figure(4)
-plot(V(:,1),V(:,2),'.k');
-title('Original');
+% figure(1)
+% plot(ptssol_affine(:,1),ptssol_affine(:,2),'.k');
+% title('Affine');
+% 
+% figure(2)
+% plot(ptssol_similary(:,1),ptssol_similary(:,2),'.k');
+% title('Similary');
+% 
+% figure(3)
+% plot(ptssol_rigid(:,1),ptssol_rigid(:,2),'.k');
+% title('Rigid');
+% 
+% figure(4)
+% plot(V(:,1),V(:,2),'.k');
+% title('Original');
 
 
 

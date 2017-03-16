@@ -24,9 +24,9 @@ def deformation(P,V,Q,deformation):
 		somwiqi = w[0,i]*Q[i,:]+somwiqi
 		somwi = w[0,i] + somwi
 
+	
 	px = somwipi/float(somwi)
 	qx = somwiqi/float(somwi)
-	
 
 	pchap = numpy.zeros((n,2))
 	qchap = numpy.zeros((n,2))
@@ -34,7 +34,6 @@ def deformation(P,V,Q,deformation):
 	for i in range(n):
 		pchap[i,:] = P[i,:] - px
 		qchap[i,:] = Q[i,:] - qx
-
 	if deformation=="affine":
 
 		M1 = numpy.zeros((2,2))
@@ -56,7 +55,7 @@ def deformation(P,V,Q,deformation):
 
 		A2=numpy.zeros((2,2))
 		A2[0,:]=V-px		
-		A2[1,:]=ortho(A2[0,:])
+		A2[1,:]=-ortho(A2[0,:])
 		A2=numpy.transpose(numpy.mat(A2))
 		f1=numpy.zeros((1,2))
 
@@ -71,7 +70,7 @@ def deformation(P,V,Q,deformation):
 	elif deformation=="rigide":
 		A2=numpy.zeros((2,2))
 		A2[0,:]=V-px		
-		A2[1,:]=ortho(A2[0,:])
+		A2[1,:]=-ortho(A2[0,:])
 		A2=numpy.transpose(numpy.mat(A2))
 		fr1=numpy.zeros((1,2))
 
@@ -80,13 +79,11 @@ def deformation(P,V,Q,deformation):
 			A1[0,:]=pchap[i,:]
 			A1[1,:]=-ortho(pchap[i,:])
 			fr1=numpy.mat(qchap[i,:])*w[0,i]*numpy.mat(A1)*numpy.mat(A2)+fr1
-
 		f1=(numpy.linalg.norm(V-px)*fr1/numpy.linalg.norm(fr1))+qx
-
 	return f1-V
 
 def ortho(V):
-	#x,y => -y,x
+	#x,y => -y,xsomwipi
 	vect=numpy.zeros((1,2))
 	V=numpy.mat(V)
 	vect[0,0]=-V[0,1]

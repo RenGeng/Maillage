@@ -27,7 +27,6 @@ for i=1:n
     somwiqi=w(i)*Q(i,:)+somwiqi;
     somwi=w(i)+somwi;
 end
-
 px=somwipi/somwi;
 qx=somwiqi/somwi;
 
