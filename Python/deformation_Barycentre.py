@@ -38,6 +38,7 @@ def vect_new_point(p,Q,nb_cote_Q,new_Q):
 def cotangent(a,b,c):
 	ba=numpy.zeros((1,2))
 	bc=numpy.zeros((1,2))
+	#print("a=",a,"b=",b,"c=",c)
 	ba=a-b
 	bc=c-b	
 	#print("ba=",ba,"bc=",bc,"norm=",numpy.linalg.norm(numpy.cross(bc,ba)))
