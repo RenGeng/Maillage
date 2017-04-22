@@ -41,16 +41,17 @@ for i in range(nb_point):
 file_mesh.close()
 
 #Initialisation de Q en faisant un carré autour de la figure
-max_x=numpy.max(mat_points[:,0])
-min_x=numpy.min(mat_points[:,0])
-max_y=numpy.max(mat_points[:,1])
-min_y=numpy.min(mat_points[:,1])
+max_x=numpy.max(mat_points[:,0])+0.1
+min_x=numpy.min(mat_points[:,0])-0.1
+max_y=numpy.max(mat_points[:,1])+0.1
+min_y=numpy.min(mat_points[:,1])-0.1
 
 mess="["+str(min_x)+" "+str(max_y)+";"+str(max_x)+" "+str(max_y)+";"+str(max_x)+" "+str(min_y)+";"+str(min_x)+" "+str(min_y)+"]"
 Q=numpy.mat(mess)
 nb_cote_Q=len(Q)
 new_Q=numpy.copy(Q)
-new_Q[1,:]=new_Q[1,:]*0.5
+new_Q[1,:]=new_Q[1,:]*1.5
+new_Q[2,:]=new_Q[2,:]*0.2
 
 #Calcul point sol
 point_sol = numpy.zeros((nb_point,2))
