@@ -15,6 +15,56 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
     if iteration == total: 
         print()
 
+# Marche de Jarvis ou methode de l'emballage cadeau
+
+#from tkinter import *
+
+def plus_a_gauche(points):
+    # trouve parmi la liste points le pt le plus a gauche
+    minx=points[0][0]
+    gauche=points[0]
+    for p in points:
+        if p[0]<minx:
+            minx=p[0]
+            gauche=p
+    return gauche
+
+
+def sens_direct(a,b,c):
+    # vrai si les points a, b, et c "tournent" dans le sens trigonometrique positif
+    x1 = b[0]-a[0]
+    y1 = b[1]-a[1]
+    x2 = c[0]-a[0]
+    y2 = c[1]-a[1]
+    det = x1*y2 - x2*y1
+    return det>0
+
+
+def jarvis(points):
+    # applique la methode de Jarvis
+    # en partant du point le plus a gauche, on construit les points de
+    # l'enveloppe convexe les uns apres les autres. Chaque point ajoute
+    # doit pouvoir etre relie au precedent en ne laissant aucun point
+    # a gauche de ce segment.
+    env=[]
+    gauche=plus_a_gauche(points)
+    env.append(gauche)
+    fin=False
+    i=0
+    while not fin:
+        p = env[i]
+        q = points[0]
+        if p==q :
+            q = points[1]
+        for r in points:
+            if sens_direct(p,q,r):
+                q=r
+        env.append(q)
+        points.remove(q)
+        i += 1
+        fin = (env[0]==q)
+    return env                    
+
 #Demande du fichier
 nom_fichier=input("Veuilez entrer le nom de la figure à modifier (sans l'extension):\n");
 
@@ -22,8 +72,7 @@ nom_fichier=input("Veuilez entrer le nom de la figure à modifier (sans l'extens
 file_mesh = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh","r")
 
 #Lecture du fichier jusqu'à Vertices	
-while file_mesh.readline()!="Vertices\n":	
-
+while file_mesh.readline()!="Vertices\n":
 	file_mesh.readline()
 
 # Nombre de points du mesh
@@ -40,6 +89,13 @@ for i in range(nb_point):
 
 file_mesh.close()
 
+# enveloppe convexe
+points = mat_points.tolist()
+env = jarvis(points)
+print("enveloppe=",env)
+print("longueur enveloppe = ",len(env))
+
+
 #Initialisation de Q en faisant un carré autour de la figure
 max_x=numpy.max(mat_points[:,0])+0.1
 min_x=numpy.min(mat_points[:,0])-0.1
@@ -50,8 +106,8 @@ mess="["+str(min_x)+" "+str(max_y)+";"+str(max_x)+" "+str(max_y)+";"+str(max_x)+
 Q=numpy.mat(mess)
 nb_cote_Q=len(Q)
 new_Q=numpy.copy(Q)
-new_Q[0,:]=new_Q[0,:]*0.01
-new_Q[1,:]=new_Q[1,:]*2
+new_Q[1,:]=new_Q[1,:]*1.5
+new_Q[2,:]=new_Q[2,:]*0.2
 
 #Calcul point sol
 point_sol = numpy.zeros((nb_point,2))
