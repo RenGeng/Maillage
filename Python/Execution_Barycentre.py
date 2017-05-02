@@ -92,9 +92,28 @@ file_mesh.close()
 # enveloppe convexe
 points = mat_points.tolist()
 env = jarvis(points)
-print("enveloppe=",env)
-print("longueur enveloppe = ",len(env))
+for point in env:
+	print(str(point[0]),str(point[1]))
 
+
+file_env = open("enveloppe.mesh","w")
+file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env))+"\n")
+
+for i in env:
+	file_env.write(str(i[0]))
+	file_env.write(" ")
+	file_env.write(str(i[1]))
+	file_env.write("\n")
+
+file_env.write("\nEdges\n")
+file_env.write(str(len(env))+"\n")
+
+for i in range(1,len(env)):
+	file_env.write(str(i)+" "+str(i+1)+" 0\n")
+
+file_env.write("End")
+
+file_env.close()
 
 #Initialisation de Q en faisant un carré autour de la figure
 max_x=numpy.max(mat_points[:,0])+0.1
