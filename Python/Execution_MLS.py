@@ -7,24 +7,36 @@ import os, sys
 import numpy
 import time
 from deformation_MLS import deformation
+
 ################################################
-P=[]
-Q=[]
-i=3;
-next=False
+#Décriptage des arguments#
+argument=sys.argv[1].split(',')
+nom_fichier_etat=True
+P_etat=False
+Q_etat=False
+Point_P=[]
+Point_Q=[]
 
-while i<2*int(sys.argv[2])+1:
-	if next==False and sys.argv[i]!="next":
-		P.append((float(sys.argv[i]),float(sys.argv[i+1])))
-		i+=1
-	elif next==True and sys.argv[i]!="next":
-		Q.append((float(sys.argv[i]),float(sys.argv[i+1])))
-		i+=1
+for element in argument:
+	if(nom_fichier_etat==True):
+		nom_fichier=element
+		nom_fichier_etat=False
 
-	elif(sys.argv[i]=="next"):
-		next=True
-	i+=1
+	elif(element=='P'):
+		P_etat=True
+
+	elif(element=='Q'):
+		Q_etat=True
+	
+	elif(P_etat==True and Q_etat==False):
+		Point_P.append(float(element))
+
+	elif(P_etat==True and Q_etat==True):
+		Point_Q.append(float(element))
+
+
 ###############################################
+
 # Print iterations progress
 def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
@@ -36,14 +48,15 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
         print()
 
 type_deformation=input("Veuillez entrer le type de deformation souhaité ('affine','similaire' ou 'rigide'), pour les trois en même temps écrivez 'all':\n")
-nom_fichier=sys.argv[1]#input("Veuilez entrer le nom de la figure à modifier (sans l'extension):\n");
 
 # Ouverture fichier
 file_mesh = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh","r")
 
-#Lecture du fichier jusqu'à Vertices	
-while file_mesh.readline()!="Vertices\n":		
+#Lecture du fichier jusqu'à Vertices
+
+while (file_mesh.readline()!="Vertices\r\n" and file_mesh.readline()!="Vertices\n"):
 	file_mesh.readline()
+
 
 # Nombre de points du mesh
 nb_point = int(file_mesh.readline())
@@ -62,18 +75,12 @@ for i in range(nb_point):
 
 file_mesh.close()
 
-#############################################
-i=0
-P_final=numpy.zeros((len(P),2))
-for pos_Px,pos_Py in P:
-	for posx,posy in mat_points:
-		print(posx,posy)
-		if abs(pos_Px-posx)<0.01 and abs(pos_Py-posy)<0.01:
-			P_final[i,0]=posx
-			P_final[i,1]=posy
-			i+=1
+for i in range(0,len(Point_P),2):
+	for j in range(len(mat_points)):
+		if(abs(Point_P[i]-mat_points[j,0])<=0.0001 and abs(Point_P[i+1]-mat_points[j,1])<=0.0001):
+			Point_P[i]=mat_points[j,0]			
+			Point_P[i+1]=mat_points[j,1]
 			break
-###############################################
 
 # On compte le nombre de def que l'on souhaite
 if type_deformation == "all":
@@ -81,20 +88,23 @@ if type_deformation == "all":
 else:
 	liste_def=[type_deformation]
 
-def application_deformation(type_deformation,nom_fichier,P,Point_Q,nb_point,mat_points):	
+def application_deformation(type_deformation,nom_fichier,Point_P,Point_Q,nb_point,mat_points):	
 
 	
 	# Nous avons maintenant les cordonnées de chaque point dans la matrice mat_points
 
 	V = mat_points[:,0:2] # Matrice des points sans les références
-	##################################################
-	Q=numpy.zeros((len(Point_Q),2))
 
-	for i in range(len(Point_Q)):		
-		Q[i,0]=Point_Q[i][0]
-		Q[i,0]=Point_Q[i][1]	
-	###############################################
-	print(P,Q)	
+	P=numpy.zeros((len(Point_P),2))
+	for i in range(0,len(Point_P),2):
+		P[i,0]=Point_P[i]
+		P[i,1]=Point_P[i+1]
+
+
+	Q=numpy.zeros((len(Point_Q),2))
+	for i in range(0,len(Point_Q),2):
+		Q[i,0]=Point_Q[i]
+		Q[i,1]=Point_Q[i+1]
 
 	# Calcul des points sol
 	point_sol = numpy.zeros((nb_point,2))
@@ -129,24 +139,17 @@ def application_deformation(type_deformation,nom_fichier,P,Point_Q,nb_point,mat_
 
 	os.system("medit-linux ../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh &")
 
-# On lance la fonction des deformations autant de fois que souhaité
-# liste_coef_def=[]
-# liste_pts_alea=[]
-# for i in range(5):
-	# #nb=random.random()
-	# liste_pts_alea.append(random.randint(0,nb_point-1))
-	# liste_coef_def.append(random.random())
 
 if type_deformation=="all":
-	application_deformation("affine",nom_fichier,P_final,Q,nb_point,mat_points)
+	application_deformation("affine",nom_fichier,Point_P,Point_Q,nb_point,mat_points)
 	os.system('clear')
-	application_deformation("similaire",nom_fichier,P_final,Q,nb_point,mat_points)
+	application_deformation("similaire",nom_fichier,Point_P,Point_Q,nb_point,mat_points)
 	os.system('clear')
-	application_deformation("rigide",nom_fichier,P_final,Q,nb_point,mat_points)
+	application_deformation("rigide",nom_fichier,Point_P,Point_Q,nb_point,mat_points)
 	os.system('clear')
 
 elif type_deformation=="affine" or type_deformation=="similaire" or type_deformation=="rigide":	
-	application_deformation(type_deformation,nom_fichier,P_final,Q,nb_point,mat_points)
+	application_deformation(type_deformation,nom_fichier,Point_P,Point_Q,nb_point,mat_points)
 
 else:
 	print("Aucune déformation correcte trouvée")

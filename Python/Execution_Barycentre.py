@@ -50,8 +50,8 @@ mess="["+str(min_x)+" "+str(max_y)+";"+str(max_x)+" "+str(max_y)+";"+str(max_x)+
 Q=numpy.mat(mess)
 nb_cote_Q=len(Q)
 new_Q=numpy.copy(Q)
-new_Q[1,:]=new_Q[1,:]*1.5
-new_Q[2,:]=new_Q[2,:]*0.2
+new_Q[0,:]=new_Q[0,:]*0.01
+new_Q[1,:]=new_Q[1,:]*2
 
 #Calcul point sol
 point_sol = numpy.zeros((nb_point,2))

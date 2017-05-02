@@ -1,0 +1,9 @@
+mesh Th = readmesh("convexhull.1.mesh");
+
+mesh Th1 = readmesh("man.d.d.mesh");
+
+mesh Thsum = Th + Th1; 
+
+savemesh(Thsum,"merge.mesh");
+
+

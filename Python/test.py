@@ -12,8 +12,13 @@ nom_fichier=raw_input("Veuilez entrer le nom de la figure à modifier (sans l'ex
 file_mesh = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh","r")
 
 #Lecture du fichier jusqu'à Vertices	
-while file_mesh.readline()!="Vertices\n":	
-	file_mesh.readline()
+if(nom_fichier=="circle"):
+    while file_mesh.readline()!="Vertices\r\n":
+        file_mesh.readline()
+
+else:
+    while file_mesh.readline()!="Vertices\n":
+        file_mesh.readline()
 
 # Nombre de points du mesh
 nb_point = int(file_mesh.readline())
@@ -33,7 +38,7 @@ BLUE  = (  0,   0, 255)
 for i in range(nb_point):
 	ligne = file_mesh.readline().replace("\n","")	
 	liste = ligne.split(" ")	
-	pygame.draw.circle(DISPLAYSURF, WHITE, (int(round(float(liste[0])*800)), 800-int(round(float(liste[1])*800))), 2, 0)
+	pygame.draw.circle(DISPLAYSURF, WHITE, (int(round(float(liste[0])*800)), int(round(float(liste[1])*800))), 2, 0)
 
   
 # run the game loop
@@ -92,17 +97,16 @@ while Boucle==True:
     pygame.display.update()
 
 Args=(Point_P,Point_Q)
-mess="python3 Execution_MLS.py "+nom_fichier+" "+str(nombre_point+1)+" {"
+mess="python3 Execution_MLS.py \""+nom_fichier+",P"
 for posx,posy in Point_P:
-    mess=mess+str(posx)+","+str(posy)+","
+    mess=mess+","+str(posx)+","+str(posy)
 
-mess=mess+"next,"
-
+mess=mess+",Q"
 for posx,posy in Point_Q:
-    mess=mess+str(posx)+","+str(posy)+","
+    mess=mess+","+str(posx)+","+str(posy)
 
-mess=mess[:-1]
-mess=mess+"}"
+#mess=mess[:-1]
+mess=mess+"\""
 
 print mess
 os.system(mess)
