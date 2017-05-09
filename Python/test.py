@@ -38,7 +38,7 @@ BLUE  = (  0,   0, 255)
 for i in range(nb_point):
 	ligne = file_mesh.readline().replace("\n","")	
 	liste = ligne.split(" ")	
-	pygame.draw.circle(DISPLAYSURF, WHITE, (int(round(float(liste[0])*800)), int(round(float(liste[1])*800))), 2, 0)
+	pygame.draw.circle(DISPLAYSURF, WHITE, (int(round(float(liste[0])*800)),800-int(round(float(liste[1])*800))), 2, 0)
 
   
 # run the game loop
@@ -58,14 +58,14 @@ while Boucle==True:
 
         #Gestion du clic gauche
         if event.type == MOUSEBUTTONDOWN:
-        	if event.button == 1 and len(Point_P)<=len(Point_Q):                 
-        		Point_P.append((Decimal(event.pos[0])/800,Decimal(event.pos[1])/800))   
+        	if event.button == 1 and len(Point_P)<=len(Point_Q):       
+        		Point_P.append((Decimal(event.pos[0])/Decimal(800),Decimal(event.pos[1])/Decimal(800)))   
                 nombre_point+=1             
 
         #Gestion du clic droit
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 3 and len(Point_Q)<=len(Point_P):                 
-                Point_Q.append((Decimal(event.pos[0])/800,Decimal(event.pos[1])/800))  
+                Point_Q.append((Decimal(event.pos[0])/Decimal(800),Decimal(event.pos[1])/Decimal(800)))  
 
         #Gestion de la touche Entrée
         if event.type == KEYDOWN:
@@ -74,7 +74,7 @@ while Boucle==True:
 
         #Gestion de la touche Espace    
         if event.type == KEYDOWN:
-            if event.key == K_SPACE and len(Point_P)>0 and len(Point_Q)>0:
+            if event.key == K_SPACE and len(Point_P)>0 and len(Point_Q)>0 and len(Point_P)==len(Point_Q):
                 pos_P=Point_P.pop()
                 pos_Q=Point_Q.pop() 
 
@@ -96,6 +96,8 @@ while Boucle==True:
 
     pygame.display.update()
 
+print("Point_P=",Point_P)
+print("Point_Q=",Point_Q)
 Args=(Point_P,Point_Q)
 mess="python3 Execution_MLS.py \""+nom_fichier+",P"
 for posx,posy in Point_P:

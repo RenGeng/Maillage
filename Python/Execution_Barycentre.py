@@ -3,8 +3,40 @@
 import numpy
 import os
 import time
+import sys
 from math import sqrt
 from deformation_Barycentre import *
+
+
+################################################
+#Décriptage des arguments#
+argument=sys.argv[1].split(',')
+nom_fichier_etat=True
+P_etat=False
+Q_etat=False
+Point_P=[]
+Point_Q=[]
+
+for element in argument:
+	if(nom_fichier_etat==True):
+		nom_fichier=element
+		nom_fichier_etat=False
+
+	elif(element=='P'):
+		P_etat=True
+
+	elif(element=='Q'):
+		Q_etat=True
+	
+	elif(P_etat==True and Q_etat==False):
+		Point_P.append(float(element))
+
+	elif(P_etat==True and Q_etat==True):
+		Point_Q.append(float(element))
+
+print(Point_P)
+print(Point_Q)
+###############################################
 
 def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
@@ -14,59 +46,6 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
     # Print New Line on Complete
     if iteration == total: 
         print()
-
-# Marche de Jarvis ou methode de l'emballage cadeau
-
-#from tkinter import *
-
-def plus_a_gauche(points):
-    # trouve parmi la liste points le pt le plus a gauche
-    minx=points[0][0]
-    gauche=points[0]
-    for p in points:
-        if p[0]<minx:
-            minx=p[0]
-            gauche=p
-    return gauche
-
-
-def sens_direct(a,b,c):
-    # vrai si les points a, b, et c "tournent" dans le sens trigonometrique positif
-    x1 = b[0]-a[0]
-    y1 = b[1]-a[1]
-    x2 = c[0]-a[0]
-    y2 = c[1]-a[1]
-    det = x1*y2 - x2*y1
-    return det>0
-
-
-def jarvis(points):
-    # applique la methode de Jarvis
-    # en partant du point le plus a gauche, on construit les points de
-    # l'enveloppe convexe les uns apres les autres. Chaque point ajoute
-    # doit pouvoir etre relie au precedent en ne laissant aucun point
-    # a gauche de ce segment.
-    env=[]
-    gauche=plus_a_gauche(points)
-    env.append(gauche)
-    fin=False
-    i=0
-    while not fin:
-        p = env[i]
-        q = points[0]
-        if p==q :
-            q = points[1]
-        for r in points:
-            if sens_direct(p,q,r):
-                q=r
-        env.append(q)
-        points.remove(q)
-        i += 1
-        fin = (env[0]==q)
-    return env                    
-
-#Demande du fichier
-nom_fichier=input("Veuilez entrer le nom de la figure à modifier (sans l'extension):\n");
 
 # Ouverture fichier
 file_mesh = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh","r")
@@ -89,51 +68,68 @@ for i in range(nb_point):
 
 file_mesh.close()
 
-# enveloppe convexe
-points = mat_points.tolist()
-env = jarvis(points)
-for point in env:
-	print(str(point[0]),str(point[1]))
+#Initialisation de l'enveloppe en faisant un carré autour de la figure
+# Ouverture fichier
+file_mesh = open("enveloppe.mesh","r")
 
+#Lecture du fichier jusqu'à Vertices    
+if(nom_fichier=="circle"):
+    while file_mesh.readline()!="Vertices\r\n":
+        file_mesh.readline()
 
-file_env = open("enveloppe.mesh","w")
-file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env))+"\n")
+else:
+    while file_mesh.readline()!="Vertices\n":
+        file_mesh.readline()
 
-for i in env:
-	file_env.write(str(i[0]))
-	file_env.write(" ")
-	file_env.write(str(i[1]))
-	file_env.write("\n")
+# Nombre de points du mesh
+nb_point_env = int(file_mesh.readline())
+mat_env= numpy.zeros((nb_point,2))
+for i in range(nb_point_env):
+    ligne = file_mesh.readline().replace("\n","")   
+    liste = ligne.split(" ")  
+    mat_env[i,0]=liste[0]
+    mat_env[i,1]=liste[1]
 
-file_env.write("\nEdges\n")
-file_env.write(str(len(env))+"\n")
+new_mat_env=numpy.copy(mat_env)
+for i in range(0,len(Point_P),2):
+	for j in range(len(mat_env)):
+		if(Point_P[i]==mat_env[j,0] and Point_P[i+1]==mat_env[j,1]):
+			new_mat_env[j,0]=Point_Q[i]
+			new_mat_env[j,1]=Point_Q[i+1]
+			break
 
-for i in range(1,len(env)):
-	file_env.write(str(i)+" "+str(i+1)+" 0\n")
+max_en_y=0
+indice_y_max=0
+for i in range(len(mat_env)):
+    if(mat_env[i,1]>max_en_y):
+        max_en_y=mat_env[i,1]
+        indice_y_max=i
 
-file_env.write("End")
+max_en_x=mat_env[indice_y_max,0]
 
-file_env.close()
-
-#Initialisation de Q en faisant un carré autour de la figure
-max_x=numpy.max(mat_points[:,0])+0.1
-min_x=numpy.min(mat_points[:,0])-0.1
-max_y=numpy.max(mat_points[:,1])+0.1
-min_y=numpy.min(mat_points[:,1])-0.1
-
-mess="["+str(min_x)+" "+str(max_y)+";"+str(max_x)+" "+str(max_y)+";"+str(max_x)+" "+str(min_y)+";"+str(min_x)+" "+str(min_y)+"]"
-Q=numpy.mat(mess)
-nb_cote_Q=len(Q)
-new_Q=numpy.copy(Q)
-new_Q[1,:]=new_Q[1,:]*1.5
-new_Q[2,:]=new_Q[2,:]*0.2
+for i in range(len(mat_env)):
+	if(mat_env[i,0]>max_en_x):
+		mat_env[i,0]+=0.1
+	elif(mat_env[i,0]<max_en_x):
+		mat_env[i,0]-=0.1
+	else:
+		mat_env[i,1]+=0.1
 
 #Calcul point sol
 point_sol = numpy.zeros((nb_point,2))
 os.system('clear')
+
+print("type mat_points=",type(mat_points),"type mat_env=",type(mat_env),"type new_mat_env=",type(new_mat_env),"nb_point_env = ",nb_point_env,"nb_point=",nb_point)
+
+
 for i in range(nb_point):
-	printProgressBar(i,nb_point, prefix = 'Calcul des nouveaux points', suffix = 'Complete', decimals = 1, length = 100, fill = '█')
-	point_sol[i,:]=vect_new_point(mat_points[i,:],Q,nb_cote_Q,new_Q)
+	#printProgressBar(i,nb_point, prefix = 'Calcul des nouveaux points', suffix = 'Complete', decimals = 1, length = 100, fill = '█')
+	#if(mat_points[i,0] not in mat_env[:,0] and mat_points[i,1] not in mat_env[:,1]):
+	point_sol[i,:]=vect_new_point(mat_points[i,:],mat_env,nb_point_env,new_mat_env)
+	# else:
+	# 	for j in range(len(Point_P)):				
+	# 			if mat_points[i,0]==Point_P[j,0] and mat_points[i,1]==Point_P[j,1]:
+	# 				point_sol[i,:]=Point_Q[j,:]-Point_P[j,:]
 
 # Ecriture dans le fichier.sol
 file_sol = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".sol","w")

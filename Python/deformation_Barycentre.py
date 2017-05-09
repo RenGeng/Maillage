@@ -19,8 +19,12 @@ def vect_new_point(p,Q,nb_cote_Q,new_Q):
 		#print("suiv=",suiv,"prec=",prec,"j=",j,"Q[j:b_cote_Q,:]=",Q[j%nb_cote_Q,:],"Q[prec,:]=",Q[prec,:],"Q[suiv,:]=",Q[suiv,:])
 		W[j%nb_cote_Q]=((cotangent(p,Q[j%nb_cote_Q,:],Q[prec,:])+cotangent(p,Q[j%nb_cote_Q,:],Q[suiv,:]))/(numpy.linalg.norm(p-Q[j%nb_cote_Q,:])**2))
 		#print("\n----------------------\n")
-		sumW+=W[j%nb_cote_Q]		
+		sumW+=W[j%nb_cote_Q]
 
+	if(numpy.linalg.norm(p-Q[j%nb_cote_Q,:])**2==0):
+		print("*******************************************")
+		print("NORM",numpy.linalg.norm(p-Q[j%nb_cote_Q,:])**2)
+		print("*******************************************")
 	#print("W=",W,"sumW=",sumW)
 
 	for weight in W:
@@ -38,10 +42,16 @@ def vect_new_point(p,Q,nb_cote_Q,new_Q):
 def cotangent(a,b,c):
 	ba=numpy.zeros((1,2))
 	bc=numpy.zeros((1,2))
-	#print("a=",a,"b=",b,"c=",c)
+	# print("*******************************************")
+	# print("a=",a,"b=",b,"c=",c)
+	# print("*******************************************")
 	ba=a-b
-	bc=c-b	
-	#print("ba=",ba,"bc=",bc,"norm=",numpy.linalg.norm(numpy.cross(bc,ba)))
-	return((ba[0,0]*bc[0,0]+ba[0,1]*ba[0,1])/numpy.linalg.norm(numpy.cross(bc,ba)))
+	bc=c-b
+	# print("*********************************************************")
+	# print("ba=",ba,"bc=",bc,"norm=",numpy.linalg.norm(numpy.cross(bc,ba)))
+	# print("*********************************************************")
+	# print("\n \n \n \n ")
+	# print("ba[0]:",ba[0])
+	return((ba[0]*bc[0]+ba[1]*ba[1])/numpy.linalg.norm(numpy.cross(bc,ba)))
 
 
