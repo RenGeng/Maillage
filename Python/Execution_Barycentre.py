@@ -34,8 +34,8 @@ for element in argument:
 	elif(P_etat==True and Q_etat==True):
 		Point_Q.append(float(element))
 
-print(Point_P)
-print(Point_Q)
+#print(Point_P)
+#print(Point_Q)
 ###############################################
 
 def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
@@ -98,38 +98,15 @@ for i in range(0,len(Point_P),2):
 			new_mat_env[j,1]=Point_Q[i+1]
 			break
 
-max_en_y=0
-indice_y_max=0
-for i in range(len(mat_env)):
-    if(mat_env[i,1]>max_en_y):
-        max_en_y=mat_env[i,1]
-        indice_y_max=i
-
-max_en_x=mat_env[indice_y_max,0]
-
-for i in range(len(mat_env)):
-	if(mat_env[i,0]>max_en_x):
-		mat_env[i,0]+=0.1
-	elif(mat_env[i,0]<max_en_x):
-		mat_env[i,0]-=0.1
-	else:
-		mat_env[i,1]+=0.1
-
 #Calcul point sol
 point_sol = numpy.zeros((nb_point,2))
-os.system('clear')
+#os.system('clear')
 
-print("type mat_points=",type(mat_points),"type mat_env=",type(mat_env),"type new_mat_env=",type(new_mat_env),"nb_point_env = ",nb_point_env,"nb_point=",nb_point)
+#print("type mat_points=",type(mat_points),"type mat_env=",type(mat_env),"type new_mat_env=",type(new_mat_env),"nb_point_env = ",nb_point_env,"nb_point=",nb_point)
 
 
 for i in range(nb_point):
-	#printProgressBar(i,nb_point, prefix = 'Calcul des nouveaux points', suffix = 'Complete', decimals = 1, length = 100, fill = '█')
-	#if(mat_points[i,0] not in mat_env[:,0] and mat_points[i,1] not in mat_env[:,1]):
 	point_sol[i,:]=vect_new_point(mat_points[i,:],mat_env,nb_point_env,new_mat_env)
-	# else:
-	# 	for j in range(len(Point_P)):				
-	# 			if mat_points[i,0]==Point_P[j,0] and mat_points[i,1]==Point_P[j,1]:
-	# 				point_sol[i,:]=Point_Q[j,:]-Point_P[j,:]
 
 # Ecriture dans le fichier.sol
 file_sol = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".sol","w")
@@ -138,6 +115,7 @@ file_sol.write("MeshVersionFormatted 2\n\nDimension 2\n\nSolAtVertices\n"+str(nb
 
 for sol in point_sol:
 	file_sol.write(str(sol[0])+" "+str(sol[1])+"\n")
+	
 
 file_sol.write("\nEnd")
 file_sol.close()

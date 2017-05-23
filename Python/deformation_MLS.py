@@ -56,7 +56,7 @@ def deformation(P,V,Q,deformation):
 
 		A2=numpy.zeros((2,2))
 		A2[0,:]=V-px		
-		A2[1,:]=ortho(A2[0,:])
+		A2[1,:]=-ortho(A2[0,:])
 		A2=numpy.transpose(numpy.mat(A2))
 		f1=numpy.zeros((1,2))
 
@@ -71,7 +71,7 @@ def deformation(P,V,Q,deformation):
 	elif deformation=="rigide":
 		A2=numpy.zeros((2,2))
 		A2[0,:]=V-px		
-		A2[1,:]=ortho(A2[0,:])
+		A2[1,:]=-ortho(A2[0,:])
 		A2=numpy.transpose(numpy.mat(A2))
 		fr1=numpy.zeros((1,2))
 

@@ -145,25 +145,8 @@ for i in range(0,len(Point_P)):
     Point_P[i][0]=posx_temp
     Point_P[i][1]=posy_temp
 
-# max_en_y=0
-# indice_y_max=0
-# for i in range(0,len(liste_point)-1,2):
-#     if(liste_point[i+1]>max_en_y):
-#         max_en_y=liste_point[i+1]
-#         indice_y_max=i
 
-# max_en_x=liste_point[indice_y_max]
-
-# for i in range(len(Point_P)):
-#     if(Point_P[i][0]>max_en_x):
-#         Point_P[i][0]+=0.1
-#     elif(Point_P[i][0]<max_en_x):
-#         Point_P[i][0]-=0.1
-#     else:
-#         Point_P[i][1]+=0.1
-
-
-Args=(Point_P,Point_Q)
+print(Point_P,Point_Q)
 mess="python3 Execution_Barycentre.py \""+nom_fichier+",P"
 for posx,posy in Point_P:
     mess=mess+","+str(posx)+","+str(posy)
@@ -177,8 +160,3 @@ mess=mess+"\""
 
 print mess
 os.system(mess)
-
-
-
-
-

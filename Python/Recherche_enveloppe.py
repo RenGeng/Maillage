@@ -80,11 +80,34 @@ for i in range(nb_point):
 
 file_mesh.close()
 
+#on agrandit la figure
+#On cherche les éxtrémités de la figure
+K=1.05
+maxx=mat_points[0,0]
+minx=mat_points[0,0]
+maxy=mat_points[0,1]
+miny=mat_points[0,1]
+for i in range(0,len(mat_points)):
+    if(mat_points[i,0]>maxx):
+        maxx=mat_points[i,0]
+    elif(mat_points[i,0]<minx):
+        minx=mat_points[i,0]
+    if(mat_points[i,1]>maxy):
+        maxy=mat_points[i,1]
+    elif(mat_points[i,1]<miny):
+        miny=mat_points[i,1]
+
+centrex=(maxx+minx)/2
+centrey=(maxy+miny)/2
+
+#Puis on applique l'homotetie
+for i in range(0,len(mat_points)):
+    mat_points[i,0]=K*(mat_points[i,0]-centrex)+centrex
+    mat_points[i,1]=K*(mat_points[i,1]-centrey)+centrey
+
 # enveloppe convexe
 points = mat_points.tolist()
 env = jarvis(points)
-# for point in env:
-#     print(str(point[0]),str(point[1]))
 
 
 file_env = open("enveloppe.mesh","w")
