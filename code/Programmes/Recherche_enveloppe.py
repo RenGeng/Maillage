@@ -111,13 +111,15 @@ env = jarvis(points)
 
 
 file_env = open("enveloppe.mesh","w")
-file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env)-1)+"\n")
+file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env))+"\n")
 
-for i in range(len(env)-1):
+for i in range(len(env)):
     file_env.write(str(env[i][0]))
     file_env.write(" ")
     file_env.write(str(env[i][1]))
     file_env.write("\n")
+
+
 
 file_env.write("\nEdges\n")
 file_env.write(str(len(env))+"\n")

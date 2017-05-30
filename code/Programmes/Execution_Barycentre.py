@@ -34,8 +34,8 @@ for element in argument:
 	elif(P_etat==True and Q_etat==True):
 		Point_Q.append(float(element))
 
-#print(Point_P)
-#print(Point_Q)
+print(Point_P)
+print(Point_Q)
 ###############################################
 
 def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
@@ -116,6 +116,7 @@ point_sol = numpy.zeros((nb_point,2))
 
 os.system('clear')
 for i in range(nb_point):
+	os.system('clear')
 	printProgressBar(i,nb_point, prefix = 'Calcul des nouveaux points en déformation ', suffix = 'Complete', decimals = 1, length = 100, fill = '█')
 	point_sol[i,:]=vect_new_point(mat_points[i,:],mat_env,nb_point_env,new_mat_env,ouverture)
 

@@ -97,13 +97,13 @@ while Boucle==True:
         #Gestion du clic gauche
         if event.type == MOUSEBUTTONDOWN:
         	if event.button == 1 and len(Point_P)<=len(Point_Q):       
-        		Point_P.append([Decimal(event.pos[0])/Decimal(800),Decimal(event.pos[1])/Decimal(800)])   
+        		Point_P.append([Decimal(event.pos[0])/Decimal(800),1-Decimal(event.pos[1])/Decimal(800)])   
                 nombre_point+=1             
 
         #Gestion du clic droit
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 3 and len(Point_Q)<=len(Point_P):                 
-                Point_Q.append([Decimal(event.pos[0])/Decimal(800),Decimal(event.pos[1])/Decimal(800)])  
+                Point_Q.append([Decimal(event.pos[0])/Decimal(800),1-Decimal(event.pos[1])/Decimal(800)])  
 
         #Gestion de la touche Entrée
         if event.type == KEYDOWN:
@@ -118,19 +118,19 @@ while Boucle==True:
 
         #Gestion du dessin des nouveaux et anciens points
         for posx,posy in Point_P:
-            pygame.draw.circle(DISPLAYSURF, RED, (posx*800,posy*800), 4, 0)
+            pygame.draw.circle(DISPLAYSURF, RED, (posx*800,800-posy*800), 4, 0)
         for posx,posy in Point_Q:
-            pygame.draw.circle(DISPLAYSURF, BLUE, (posx*800,posy*800), 4, 0)
+            pygame.draw.circle(DISPLAYSURF, BLUE, (posx*800,800-posy*800), 4, 0)
 
         #Traçage des segments
         if len(Point_P)==len(Point_Q):
             for i in range(len(Point_P)):
-                pygame.draw.line(DISPLAYSURF, GREEN, (Point_P[i][0]*800,Point_P[i][1]*800),(Point_Q[i][0]*800,Point_Q[i][1]*800), 2)
+                pygame.draw.line(DISPLAYSURF, GREEN, (Point_P[i][0]*800,800-Point_P[i][1]*800),(Point_Q[i][0]*800,800-Point_Q[i][1]*800), 2)
 
         #Suppresion de points et de segment
-        pygame.draw.circle(DISPLAYSURF, BLACK, (pos_P[0]*800,pos_P[1]*800), 4, 0)
-        pygame.draw.circle(DISPLAYSURF, BLACK, (pos_Q[0]*800,pos_Q[1]*800), 4, 0)
-        pygame.draw.line(DISPLAYSURF, BLACK, (pos_P[0]*800,pos_P[1]*800),(pos_Q[0]*800,pos_Q[1]*800), 2)
+        pygame.draw.circle(DISPLAYSURF, BLACK, (pos_P[0]*800,800-pos_P[1]*800), 4, 0)
+        pygame.draw.circle(DISPLAYSURF, BLACK, (pos_Q[0]*800,800-pos_Q[1]*800), 4, 0)
+        pygame.draw.line(DISPLAYSURF, BLACK, (pos_P[0]*800,800-pos_P[1]*800),(pos_Q[0]*800,800-pos_Q[1]*800), 2)
 
     pygame.display.update()
 
@@ -146,14 +146,6 @@ for i in range(0,len(Point_P)):
     Point_P[i][0]=posx_temp
     Point_P[i][1]=posy_temp
 
-for i in range(len(Point_P)):
-    for j in range(len(liste_point)):
-        if(Point_P[i][0]==liste_point[j][0] and Point_P[i][1]==liste_point[j][1]):
-            print("Point_P[i][0]==liste_point[j][0]",Point_P[i][0],liste_point[j][0],"\nPoint_P[i][1]==liste_point[j][1]\n",Point_P[i][1],liste_point[j][1])
-
-
-
-print(Point_P,Point_Q)
 mess="python3 Execution_Barycentre.py \""+nom_fichier+",P"
 for posx,posy in Point_P:
     mess=mess+","+str(posx)+","+str(posy)

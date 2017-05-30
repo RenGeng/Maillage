@@ -3,70 +3,30 @@
 import numpy
 import time
 from math import sqrt
-import sys
-import os
 
 def vect_new_point(p,Q,nb_cote_Q,new_Q,ouverture):
 	sumW=0
 	liste_alpha=[]
-
-	#print("New_Q =",new_Q)
-
-
-	# #Initialisation de W avec des 0
 	W=[]
+	new_p=numpy.zeros((1,2))
 	for j in range(nb_cote_Q):
 		W.append(0)
 		liste_alpha.append(0)
 
-	# for j in range(nb_cote_Q-1):	
-	# 	#print("j=",j,"\n","Q[0,:],Q[len(Q)-1,:]",Q[0,:],Q[len(Q)-1,:])
-	# 	if(j==0):
-	# 		W[j]=(cotangent(p,Q[0,:],Q[len(Q)-2,:])+cotangent(p,Q[0,:],Q[1,:]))/(numpy.linalg.norm(p-Q[0,:])**2)
-	# 	else:
-	# 		W[j]=(cotangent(p,Q[j,:],Q[j-1,:])+cotangent(p,Q[j,:],Q[j+1,:]))/(numpy.linalg.norm(p-Q[j,:])**2)
-
-	# 	sumW+=W[j]
-
-	for j in range(nb_cote_Q):	
-		#Calcul de 1 à n-1 et le dernier est 0
+	for j in range(nb_cote_Q-1):	
 		if(j==0):
-			prec = nb_cote_Q-1
+			W[j]=(cotangent(p,Q[0,:],Q[len(Q)-2,:])+cotangent(p,Q[0,:],Q[1,:]))/(numpy.linalg.norm(p-Q[0,:])**2)
 		else:
-			prec = j - 1
+			W[j]=(cotangent(p,Q[j,:],Q[j-1,:])+cotangent(p,Q[j,:],Q[(j+1)%nb_cote_Q,:]))/(numpy.linalg.norm(p-Q[j,:])**2)
 
-		if(j==nb_cote_Q-1):
-			suiv = 0
-		else:
-			suiv=j+1
-		#time.sleep(1)
-
-		#print("suiv=",suiv,"prec=",prec,"j=",j,"Q[j:b_cote_Q,:]=",Q[j,:],"Q[prec,:]=",Q[prec,:],"Q[suiv,:]=",Q[suiv,:])
-		#print(cotangent(p,Q[j,:],Q[prec,:]),cotangent(p,Q[j,:],Q[suiv,:]),numpy.linalg.norm(p-Q[j,:]))
-		W[j]=((cotangent(p,Q[j,:],Q[prec,:])+cotangent(p,Q[j,:],Q[suiv,:]))/(numpy.linalg.norm(p-Q[j,:])**2))
-		#print("\n----------------------\n")
-		#print(W[j%nb_cote_Q])
-		#print("\n----------------------\n")
 		sumW+=W[j]
 
-	print("W=",W)
-	print("sumW=",sumW)
-	print("SOMME",sum(W))
-	# print(len(W))
 
-	# time.sleep(1)
 	for i in range(nb_cote_Q):
 		liste_alpha[i]=W[i]/sumW
-	print("liste_alpha=",liste_alpha)
 
-	print("Somme des alphas=",sum(liste_alpha))
-
-	new_p=numpy.zeros((1,2))
-
-	for j in range(nb_cote_Q):
-		new_p=new_Q[j,:]*liste_alpha[j]+new_p
-
-	print(new_p-p)
+	for i in range(nb_cote_Q):	
+	 	new_p=new_Q[i,:]*liste_alpha[i]+new_p
 	if(ouverture=="pygame"):
 		return new_p
 	elif(ouverture=="medit-linux"):
@@ -79,6 +39,6 @@ def cotangent(a,b,c):
 	bc=c-b
 	#time.sleep(1)
 	#print("numpy.linalg.norm(numpy.cross(bc,ba)))=",numpy.linalg.norm(numpy.cross(bc,ba)),"bc=",bc,"ba=",ba)
-	return((ba[0]*bc[0]+ba[1]*ba[1])/numpy.linalg.norm(numpy.cross(bc,ba)))
+	return((ba[0]*bc[0]+bc[1]*ba[1])/numpy.linalg.norm(numpy.cross(bc,ba)))
 
 

@@ -46,7 +46,7 @@ file_mesh.close()
 if(len(argument)>1):
 	if(argument[1]=="barycentre"):
 		#On execute le programme pour chercher l'enveloppe convexe
-		mess1="python3 Recherche_enveloppe.py "+nom_fichier+" 1"
+		mess1="python3 Recherche_enveloppe.py "+nom_fichier+" 1.05"
 		os.system(mess1)
 		# Ouverture fichier
 		file_mesh = open("enveloppe.mesh","r")

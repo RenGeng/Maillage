@@ -97,8 +97,6 @@ while Boucle==True:
 
     pygame.display.update()
 
-print("Point_P=",Point_P)
-print("Point_Q=",Point_Q)
 Args=(Point_P,Point_Q)
 mess="python3 Execution_MLS.py \""+nom_fichier+",P"
 for posx,posy in Point_P:
