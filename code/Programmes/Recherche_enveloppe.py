@@ -60,7 +60,7 @@ def jarvis(points):
 nom_fichier=sys.argv[1]
 
 # Ouverture fichier
-file_mesh = open("../deformation/Polytech_maillage/mesh/"+nom_fichier+".mesh","r")
+file_mesh = open("../mesh/mesh_2D/"+nom_fichier+".mesh","r")
 
 #Lecture du fichier jusqu'à Vertices    
 while file_mesh.readline()!="Vertices\n":
@@ -82,7 +82,7 @@ file_mesh.close()
 
 #on agrandit la figure
 #On cherche les éxtrémités de la figure
-K=1.05
+K=float(sys.argv[2])
 maxx=mat_points[0,0]
 minx=mat_points[0,0]
 maxy=mat_points[0,1]
@@ -111,12 +111,12 @@ env = jarvis(points)
 
 
 file_env = open("enveloppe.mesh","w")
-file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env))+"\n")
+file_env.write("MeshVersionFormatted 1\n\nDimension 2\n\nVertices\n"+str(len(env)-1)+"\n")
 
-for i in env:
-    file_env.write(str(i[0]))
+for i in range(len(env)-1):
+    file_env.write(str(env[i][0]))
     file_env.write(" ")
-    file_env.write(str(i[1]))
+    file_env.write(str(env[i][1]))
     file_env.write("\n")
 
 file_env.write("\nEdges\n")
