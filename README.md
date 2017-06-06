@@ -1,22 +1,26 @@
+
 ### Maillage
 
-Projet Maillage
+Maillage Project
 Polytech Paris-UPMC
 
-Année 2016-2017
+Year 2016-2017
 
-### Auteur: Lancelot Satge, Suzanne Sleiman, Ren Geng
-Encadrant: Chiara Nardoni
+### Author: Lancelot Satge, Suzanne Sleiman, Geng Ren
+Professor: Chiara Nardoni
 
-Ce projet propose 2 sortes de déformation: MLS et barycentrique
+This project proposes two kinds of deformation: Most Least Square (MLS) and Barycentric
 
 ### Usage
 
-Avant d'utiliser une déformation, assurez-vous d'avoir une version 2 et 3 de Python (les versions qu'on a utilisé sont Python 2.7.6 et Python 3.4.3) et d'avoir installé le module pygame. De plus assurez vous que l'éxecutable medit-linux(si vous utilisez linux) ou medit(si vous utilisez un mac) et dans votre variable d'environnement PATH.
-/!\ Si vous utiliez un mac, changez la ligne 148 du fichier Execution_Barycentre.py et la ligne 161 du fichier par os.system("medit ../mesh/mesh_2D/"+nom_fichier+".mesh &")
+Before using a deformation, be sure to have Python 2 AND Python 3 (versions that we used : Python 2.7.6 and Python 3.4.3) and to install Pygame for Python2 and Numpy for Python3. Moreover, be 
 
-Pour utiliser la déformation MLS, allez dans le dossier code/Programmes/, lancez le fichier MLS.py avec python2, ensuite tapez le nom d'un des fichier mesh se trouvant dans le dossier code/mesh/mesh_2D sans l'extension (par exemple juste man pour le fichier man.mesh).
-Un fenêtre pygame s'ouvre, puis sélectionnez un point du dessin	avec le clique gauche et l'endroit où vous voulez que le point arrive.
-Répétez ce procédée autant de fois que vous voulez.
-Lorsque vous avez fini, appuyer sur entrée, et suivez les instructions sur le terminal.
-Si vous avez choisi l'option medit-linux
+/!\ If you use a mac, change the line 149 of the file Execution_Barycentre.py and the line 161 of the file Execution_MLS.py by os.system("./medit ../mesh/mesh_2D/"+nom_fichier+".mesh &")
+
+### MLS deformation
+To use the MLS deformation, go in the directory code/Programmes/, launch the file MLS_python2.py with python2, then write the noun of the file .mesh which you want to modify, which is in the directory code/mesh/mesh_2D without the extension (example: man for man.mesh). A pygame's window will open, then select points of the drawing with the left clic after that select the new position of the point with the right clic. Repeat this process as much as you want.
+When you have done, press enter, and follow the instructions on the terminal.
+
+### Barycentric deformation
+To use the Barycentric deformation, go in the directory code/Programmes/, launch the file Barycentrique_python2.py with python2, then write the noun of the file .mesh which you want to modify, which is in the directory code/mesh/mesh_2D without the extension (example: man for man.mesh). A pygame's window will open, then select points of the drawing with the left clic after that select the new position of the point with the right clic. Repeat this process as much as you want.
+When you have done, press enter, and follow the instructions on the terminal.
