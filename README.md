@@ -13,7 +13,7 @@ This project proposes two kinds of deformation: Most Least Square (MLS) and Bary
 
 ### Usage
 
-Before using a deformation, be sure to have Python 2 AND Python 3 (versions that we used : Python 2.7.6 and Python 3.4.3) and to install Pygame for Python2 and Numpy for Python3. Moreover, be 
+Before using a deformation, be sure to have Python 2 AND Python 3 (versions that we used : Python 2.7.6 and Python 3.4.3) and to install Pygame for Python2 and Numpy for Python3.
 
 /!\ If you use a mac, change the line 149 of the file Execution_Barycentre.py and the line 161 of the file Execution_MLS.py by os.system("./medit ../mesh/mesh_2D/"+nom_fichier+".mesh &")
 
