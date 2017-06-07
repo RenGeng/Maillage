@@ -48,9 +48,9 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
         print()
 
 os.system('clear')
-ouverture=input("Veuillez indiquer le type d'ouverture que vous voulez 'medit' ou 'pygame':\n")
-while(ouverture!="medit" and ouverture!="pygame"):
-	ouverture=input("Saisis incorrecte veuillez recommencer 'medit' ou 'pygame':\n")
+ouverture=input("Veuillez indiquer le type d'ouverture que vous voulez 'medit-linux' ou 'pygame':\n")
+while(ouverture!="medit-linux" and ouverture!="pygame"):
+	ouverture=input("Saisis incorrecte veuillez recommencer 'medit-linux' ou 'pygame':\n")
 
 # Ouverture fichier
 file_mesh = open("../mesh/mesh_2D/"+nom_fichier+".mesh","r")
@@ -133,7 +133,7 @@ if(ouverture=="pygame"):
 	file_sol.write("\nEnd")
 	file_sol.close()
 	os.system("python2 affichage_mesh.py "+nom_fichier+"_new,barycentre")
-elif(ouverture=="medit"):
+elif(ouverture=="medit-linux"):
 	# Ecriture dans le fichier.sol
 	file_sol = open("../mesh/mesh_2D/"+nom_fichier+".sol","w")
 	file_sol.write("MeshVersionFormatted 2\n\nDimension 2\n\nSolAtVertices\n"+str(nb_point)+"\n1 2\n\n")

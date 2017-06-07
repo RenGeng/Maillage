@@ -13,7 +13,7 @@ nom_fichier=raw_input("Veuilez entrer le nom de la figure à modifier (sans l'ex
 file_mesh = open("../mesh/mesh_2D/"+nom_fichier+".mesh","r")
 
 #Lecture du fichier jusqu'à Vertices	
-if(nom_fichier=="circle"):
+if(nom_fichier=="circle" or nom_fichier=="singe" or nom_fichier=="ele"):
     while file_mesh.readline()!="Vertices\r\n":
         file_mesh.readline()
 

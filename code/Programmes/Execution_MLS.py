@@ -52,9 +52,9 @@ while(type_deformation!="affine" and type_deformation!="rigide" and type_deforma
 	type_deformation=input("Saisis incorrecte veuillez recommencer ('affine','similaire' ou 'rigide'), pour les trois en même temps écrivez 'all':\n")
 
 os.system('clear')
-ouverture=input("Veuillez indiquer le type d'ouverture que vous voulez 'medit' ou 'pygame':\n")
-while(ouverture!="medit" and ouverture!="pygame"):
-	ouverture=input("Saisis incorrecte veuillez recommencer 'medit' ou 'pygame':\n")
+ouverture=input("Veuillez indiquer le type d'ouverture que vous voulez 'medit-linux' ou 'pygame':\n")
+while(ouverture!="medit-linux" and ouverture!="pygame"):
+	ouverture=input("Saisis incorrecte veuillez recommencer 'medit-linux' ou 'pygame':\n")
 
 # Ouverture fichier
 file_mesh = open("../mesh/mesh_2D/"+nom_fichier+".mesh","r")
@@ -146,7 +146,7 @@ def application_deformation(type_deformation,nom_fichier,Point_P,Point_Q,nb_poin
 		file_sol.close()
 
 		os.system("python2 affichage_mesh.py "+nom_fichier+"_new")
-	elif(ouverture=='medit'):
+	elif(ouverture=='medit-linux'):
 		# Ecriture dans le fichier.sol
 		file_sol = open("../mesh/mesh_2D/"+nom_fichier+".sol","w")
 		file_sol.write("MeshVersionFormatted 2\n\nDimension 2\n\nSolAtVertices\n"+str(nb_point)+"\n1 2\n\n")
